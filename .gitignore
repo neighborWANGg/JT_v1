@@ -1,0 +1,21 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# IDE
+.idea/
+.vscode/
+
+# Secrets / local env
+.env
+.env.*
+
+# Local model weights (several GB) — teammates run down_model.py
+model/
+
+# Generated embeddings
+embeddings.json

@@ -1,0 +1,9 @@
+FlagEmbedding
+pandas
+numpy
+tqdm
+openpyxl
+huggingface_hub
+sentence-transformers
+transformers
+accelerate
