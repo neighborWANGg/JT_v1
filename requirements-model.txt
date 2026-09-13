@@ -1,0 +1,9 @@
+# 仅在接入本地 BGE-M3 模型时安装。
+FlagEmbedding
+torch
+transformers
+sentence-transformers
+accelerate
+numpy
+tqdm
+huggingface_hub
