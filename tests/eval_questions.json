@@ -1,0 +1,18 @@
+[
+  {
+    "question": "蓝盒还在原处吗",
+    "expected_content": "蓝盒还在原处吗"
+  },
+  {
+    "question": "wxid_l3q7j5v9发过什么消息",
+    "expected_sender_id": "wxid_l3q7j5v9"
+  },
+  {
+    "question": "127.0.0.2对应的聊天记录",
+    "expected_ip_address": "127.0.0.2"
+  },
+  {
+    "question": "有没有没执行或等待通知的消息",
+    "expected_content": "昨晚没动，等通知"
+  }
+]
