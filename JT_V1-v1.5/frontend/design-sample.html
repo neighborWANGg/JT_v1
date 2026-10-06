@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark" data-i18n="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>酒桶研判系统</title>
+  <link rel="stylesheet" href="/theme.config.css?v=project-62">
+</head>
+<body>
+  <svg aria-hidden="true" hidden>
+    <defs>
+      <symbol id="i-new" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/><path d="M5 5h3M5 5v3M19 19h-3M19 19v-3"/></symbol>
+      <symbol id="i-case" viewBox="0 0 24 24"><path d="M3.5 7.5h17v12h-17z"/><path d="M8 7.5V5h8v2.5M8 12h8M8 16h5"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M5 14v6h14v-6"/></symbol>
+      <symbol id="i-language" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.4 3.5 5.2 3.5 8.5S14.5 18.1 12 20.5C9.5 18.1 8.5 15.3 8.5 12S9.5 5.9 12 3.5"/></symbol>
+      <symbol id="i-theme" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 0 0 17z"/><path d="M12 3.5a5.2 5.2 0 0 1 0 10.4 3.3 3.3 0 0 0 0 6.6"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6zM14 3.5v4h4M9 12h6M9 16h6"/></symbol>
+      <symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+      <symbol id="i-analysis" viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/><path d="m4 7 6-4 6 7 5-5"/></symbol>
+      <symbol id="i-review" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h5"/><path d="m10 16 1.5 1.5L15 14"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="m5 16-1 4 4-1L19 8l-3-3zM14 7l3 3"/></symbol>
+      <symbol id="i-reject" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 5 6v5.5c0 4.5 2.8 7.5 7 9 4.2-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-5"/></symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4M10 10h4v4h-4z"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="m3 11 18-8-8 18-2-8zM11 13 21 3"/></symbol>
+      <symbol id="i-rename" viewBox="0 0 24 24"><path d="M5 19h5L20 9l-5-5L5 14zM13 6l5 5M4 21h16"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="m8 4 8 8M14 3l7 7-4 1-5 5-1 4-7-7 4-1 5-5zM8 16l-5 5"/></symbol>
+      <symbol id="i-unread" viewBox="0 0 24 24"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+      <symbol id="i-archive" viewBox="0 0 24 24"><path d="M4 8h16v12H4zM3 4h18v4H3zM9 12h6"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z"/></symbol>
+      <symbol id="i-section" viewBox="0 0 24 24"><path d="M5 5h14M5 12h14M5 19h14"/><path d="M3 5h0M3 12h0M3 19h0"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M5 13v7h14v-7"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+      <symbol id="i-fork" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="18" cy="19" r="2"/><path d="M6 7v5c0 4 3 5 6 5h4M8 10c5 0 5-3 8-3"/></symbol>
+      <symbol id="i-window" viewBox="0 0 24 24"><path d="M4 5h10v14H4z"/><path d="M13 11h7v9h-7zM15 4h5v5M20 4l-7 7"/></symbol>
+      <symbol id="i-sidebar" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM9 5v14"/><path d="m14 9-3 3 3 3"/></symbol>
+      <symbol id="i-group" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 19c.4-4 2.2-6 5.5-6s5.1 2 5.5 6M14 14c3.7-.6 5.8 1.1 6.5 4.5"/></symbol>
+      <symbol id="i-stream" viewBox="0 0 24 24"><path d="M5 5h14M5 12h10M5 19h14"/><circle cx="19" cy="12" r="2"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 13.5v-3l-2.2-.7-.8-1.9 1.1-2-2.1-2.1-2 1.1-1.9-.8L10.5 2h-3l-.7 2.2-1.9.8-2-1.1L.8 6l1.1 2-.8 1.9-2.1.6v3l2.2.7.8 1.9-1.1 2L3 20.2l2-1.1 1.9.8.6 2.1h3l.7-2.2 1.9-.8 2 1.1 2.1-2.1-1.1-2 .8-1.9z" transform="translate(2) scale(.83)"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-reset-view" viewBox="0 0 24 24"><path d="M5 9V5h4M19 15v4h-4"/><path d="M6.5 6.5A8 8 0 0 1 20 12M17.5 17.5A8 8 0 0 1 4 12"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7"/><path d="M6 10.5V20h12v-9.5"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="home-shell" data-home>
+    <header class="home-top">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"><span class="barrel"><i></i><i></i><i></i></span></span>
+        <span class="brand-copy"><strong>酒桶研判系统</strong><span>案件项目与研判入口</span></span>
+      </div>
+      <div class="home-top-actions">
+        <span class="status-chip" data-backend-status><span class="zh-label">正在连接</span><span class="en-label">Connecting to backend</span></span>
+        <button class="button" data-language-toggle hidden><svg class="icon"><use href="#i-language"/></svg>中 / EN</button>
+        <button class="button icon-only" data-theme-toggle aria-label="切换明暗主题"><svg class="icon"><use href="#i-theme"/></svg></button>
+        <button class="button icon-only" data-home-settings aria-label="打开系统设置"><svg class="icon"><use href="#i-settings"/></svg></button>
+      </div>
+    </header>
+    <main class="home-main">
+      <div class="home-board">
+        <section class="home-intro">
+          <div>
+            <h1>案件项目</h1>
+            <p>可按案件名称或编号检索。导入资料、研判、图谱和群聊都在进入案件之后进行。</p>
+          </div>
+          <div class="home-metrics">
+            <article><span>案件</span><strong data-home-count>0</strong></article>
+            <article><span>对话</span><strong data-home-conversation-count>0</strong></article>
+          </div>
+        </section>
+        <section class="home-cases">
+          <div class="home-toolbar">
+            <label class="home-search">
+              <svg class="icon compact" aria-hidden="true"><use href="#i-search"/></svg>
+              <input type="search" data-case-search placeholder="检索案件名称或案件编号" aria-label="检索案件名称或案件编号">
+            </label>
+            <div class="home-filters" data-case-filter role="group" aria-label="案件筛选">
+              <button type="button" aria-pressed="true" data-filter="all">全部</button>
+              <button type="button" aria-pressed="false" data-filter="pinned">置顶</button>
+              <button type="button" aria-pressed="false" data-filter="active">进行中</button>
+              <button type="button" aria-pressed="false" data-filter="archived">已归档</button>
+            </div>
+            <button class="button primary" data-new-case><svg class="icon"><use href="#i-new"/></svg>
+              <span class="zh-label">新建案件</span>
+              <span class="en-label">Create a new case</span>
+            </button>
+          </div>
+          <section class="case-grid" data-home-cases aria-label="已有案件"><p class="empty-state">正在读取案件…</p></section>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="app-shell" data-case-workspace hidden>
+    <aside class="sidebar" aria-label="研判对话">
+      <header class="brand">
+        <span class="brand-mark" aria-hidden="true"><span class="barrel"><i></i><i></i><i></i></span></span>
+        <span class="brand-copy"><strong>酒桶研判系统</strong><span>证据分析工作台</span></span>
+      </header>
+
+      <div class="sidebar-actions">
+        <button class="button" data-home-back><svg class="icon"><use href="#i-home"/></svg>
+          <span class="zh-label">返回项目</span>
+          <span class="en-label">Back to case list</span>
+        </button>
+      </div>
+
+      <nav class="case-tree">
+        <div class="tree-label"><span>研判对话</span></div>
+        <div data-case-list><p class="empty-state">进入案件后显示对话</p></div>
+      </nav>
+
+      <aside class="sidebar-note glass-panel"><strong><svg class="icon compact"><use href="#i-shield"/></svg> 数据边界</strong><br>本地模式不外发。API 模式仅发送当前案件授权范围内的数据。</aside>
+    </aside>
+    <div class="resize-handle sidebar-resizer" role="separator" aria-label="调节案件导航宽度" aria-orientation="vertical" aria-valuemin="13" aria-valuemax="28" aria-valuenow="17" tabindex="0" data-resizer="sidebar"></div>
+    <button class="sidebar-scrim" data-sidebar-close aria-label="关闭案件导航"></button>
+
+    <section class="workspace">
+      <header class="topbar">
+        <button class="button icon-only sidebar-toggle" data-sidebar-toggle aria-label="打开案件导航" aria-expanded="false"><svg class="icon"><use href="#i-sidebar"/></svg></button>
+        <div class="case-identity"><strong data-case-name>请选择案件</strong><span data-case-meta>等待连接后端</span></div>
+        <div class="topbar-actions">
+          <span class="status-chip" data-backend-status><span class="zh-label">正在连接</span><span class="en-label">Connecting to backend</span></span>
+          <button class="button" data-upload data-import-scope="case"><svg class="icon"><use href="#i-upload"/></svg><span class="zh-label">案件材料</span><span class="en-label">Import case-wide investigation files</span></button>
+          <input type="file" accept=".xlsx" data-file-input multiple hidden>
+          <button class="button" data-language-toggle hidden><svg class="icon"><use href="#i-language"/></svg>中 / EN</button>
+          <button class="button icon-only" data-theme-toggle aria-label="切换明暗主题"><svg class="icon"><use href="#i-theme"/></svg></button>
+          <button class="button icon-only" data-settings-open aria-label="打开设置"><svg class="icon"><use href="#i-settings"/></svg></button>
+          <div class="menu-wrap">
+            <button class="button icon-only" data-menu-toggle aria-label="打开对话菜单"><svg class="icon"><use href="#i-more"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <main class="workspace-main">
+        <div class="workbench" data-workspace-mode="chat" data-stage="import">
+          <section class="conversation-column glass-panel">
+            <nav class="workspace-mode-nav" role="tablist" aria-label="研判工作区">
+              <button class="workspace-mode-tab" role="tab" aria-selected="true" data-workspace-mode="chat"><svg class="icon"><use href="#i-chat"/></svg><span>聊天</span></button>
+              <button class="workspace-mode-tab" role="tab" aria-selected="false" data-workspace-mode="evidence"><svg class="icon"><use href="#i-stream"/></svg><span>证据流</span></button>
+              <button class="workspace-mode-tab" role="tab" aria-selected="false" data-workspace-mode="raw"><svg class="icon"><use href="#i-group"/></svg><span>群聊原始数据</span></button>
+              <button class="workspace-mode-tab" role="tab" aria-selected="false" data-workspace-mode="graph"><svg class="icon"><use href="#i-analysis"/></svg><span>图谱</span></button>
+            </nav>
+
+            <section class="workspace-view chat-workspace" data-workspace-view="chat">
+              <section class="workbench-setup" data-workbench-steps aria-label="研判准备">
+                <article class="setup-card glass-panel" data-setup-step="1">
+                  <header>
+                    <span class="setup-step">1</span>
+                    <div>
+                      <h2>导入案件材料</h2>
+                      <p>案件材料对所有研判对话可用。人工识别可一次选择多个表格。</p>
+                    </div>
+                  </header>
+                  <div class="setup-actions">
+                    <button class="button primary" type="button" data-import-scope="case" data-import-mode="manual"><svg class="icon compact"><use href="#i-file"/></svg><span>人工识别</span></button>
+                    <button class="button" type="button" data-import-scope="case" data-import-mode="ai" hidden><svg class="icon compact"><use href="#i-cpu"/></svg><span>AI 识别</span></button>
+                  </div>
+                  <p class="setup-status" data-source-status>尚未导入案件材料</p>
+                </article>
+                <article class="setup-card glass-panel" data-setup-step="2">
+                  <header>
+                    <span class="setup-step">2</span>
+                    <div>
+                      <h2>新建研判对话</h2>
+                      <p>先开对话交流案件基本信息；在下方点击材料智能分析后，再按原规则研判上传内容。</p>
+                    </div>
+                  </header>
+                  <div class="setup-actions">
+                    <button class="button" type="button" data-new-conversation><svg class="icon compact"><use href="#i-new"/></svg><span>新建研判对话</span></button>
+                  </div>
+                  <p class="setup-status" data-conversation-status>尚未创建对话</p>
+                </article>
+              </section>
+              <div class="stream" data-turns><p class="empty-state">请先导入案件材料并新建研判对话。未点材料智能分析前，只能交流案件基本信息和文件清单</p></div>
+
+              <footer>
+                <div class="review-bar">
+                  <p>模型输出仅作辅助分析，归档前须由人工复核。</p>
+                  <button class="button" data-review="驳回" disabled><svg class="icon"><use href="#i-reject"/></svg>驳回</button>
+                  <button class="button" data-review="修改" disabled><svg class="icon"><use href="#i-edit"/></svg>修改</button>
+                  <button class="button primary" type="button" data-enter-analysis><svg class="icon compact"><use href="#i-analysis"/></svg><span class="zh-label">材料智能分析</span><span class="en-label">Run material intelligence analysis</span></button>
+                  <button class="button primary" data-review="采纳" disabled><svg class="icon"><use href="#i-check"/></svg><span class="zh-label">采纳并归档</span><span class="en-label">Approve this finding and move it to the archive</span></button>
+                </div>
+                <form class="composer glass-panel" data-analysis-form>
+                  <div class="composer-row">
+                    <textarea aria-label="研判对话内容" data-question placeholder="输入问题，可继续追问人员、账号、地址或事件"></textarea>
+                    <button class="button primary" type="submit" data-analysis-submit><svg class="icon"><use href="#i-send"/></svg><span class="zh-label">开始研判</span><span class="en-label">Start evidence-based investigation analysis</span></button>
+                  </div>
+                  <div class="composer-tools">
+                    <button class="button subtle" type="button" data-upload-conversation data-import-scope="conversation"><svg class="icon"><use href="#i-upload"/></svg>对话材料</button>
+                    <button class="button subtle" type="button" data-refresh><svg class="icon"><use href="#i-filter"/></svg>刷新数据</button>
+                    <button class="button subtle" type="button" data-sensitive-placeholder hidden><svg class="icon"><use href="#i-shield"/></svg>敏感字段已脱敏</button>
+                    <button class="button subtle model" type="button" data-settings-open><svg class="icon compact"><use href="#i-cpu"/></svg><span data-active-model>配置模型</span></button>
+                  </div>
+                </form>
+              </footer>
+            </section>
+
+            <section class="workspace-view evidence-view" data-workspace-view="evidence" hidden>
+              <div class="pane-head"><div><h2>证据流</h2><p>点击证据可定位至对应群聊原文</p></div><span class="meta" data-evidence-total>0 ITEMS</span></div>
+              <div class="tabbar" role="tablist" aria-label="证据类型">
+                <button class="tab" role="tab" aria-selected="true" data-evidence-kind="support">支持证据 0</button>
+                <button class="tab" role="tab" aria-selected="false" data-evidence-kind="counter">相反证据 0</button>
+                <button class="tab" role="tab" aria-selected="false" data-evidence-kind="all">全部候选 0</button>
+              </div>
+              <div class="evidence-stream" data-evidence-list><p class="empty-state">研判完成后显示引用证据</p></div>
+            </section>
+
+            <section class="workspace-view chat-view" data-workspace-view="raw" hidden>
+              <div class="raw-chat-shell">
+                <nav class="group-chat-list" aria-label="群聊列表">
+                  <header class="group-list-head">
+                    <strong>全部群聊</strong>
+                    <span data-group-count>0 个会话</span>
+                    <button class="button subtle" type="button" data-toggle-hidden-groups>显示已隐藏</button>
+                  </header>
+                  <div class="group-list-items"><p class="empty-state">选择案件后读取群聊</p></div>
+                </nav>
+
+                <section class="raw-chat-room" aria-label="群聊原始消息">
+                  <header class="raw-chat-head"><div><strong data-chat-title>请选择群聊</strong><span data-chat-members>0 名成员</span></div><span class="live-state">自动刷新</span></header>
+                  <form class="raw-chat-filters" data-chat-form>
+                    <label class="field"><span>成员</span><select data-chat-sender><option value="">全部成员</option></select></label>
+                    <label class="field"><span>开始时间</span><input type="datetime-local" data-chat-from></label>
+                    <label class="field"><span>结束时间</span><input type="datetime-local" data-chat-to></label>
+                    <label class="field"><span>关键词</span><input id="raw-chat-input" data-chat-input autocomplete="off" placeholder="筛选当前群消息"></label>
+                    <label class="field"><span>时间排序</span><select data-chat-sort>
+                      <option value="asc">从早到晚</option>
+                      <option value="desc">从晚到早</option>
+                    </select></label>
+                    <div class="raw-chat-filter-actions">
+                      <button class="button primary" type="submit"><svg class="icon compact"><use href="#i-filter"/></svg>筛选</button>
+                      <button class="button" type="button" data-chat-filter-clear>清除</button>
+                    </div>
+                  </form>
+                  <div class="raw-chat-messages" data-chat-messages aria-live="polite"></div>
+                </section>
+              </div>
+            </section>
+
+            <section class="workspace-view graph-view" data-workspace-view="graph" hidden>
+              <div class="graph-shell">
+                <section class="graph-network-panel" aria-label="人员关系网络">
+                  <div class="pane-head graph-pane-head"><div><h2>人员关系网络</h2><p>关系标在连线上；左侧点选当事人后可上传该人的关系表或微信好友表</p></div><span class="meta" data-graph-meta>等待读取</span></div>
+                  <div class="graph-network-body">
+                    <nav class="graph-subject-list" aria-label="当事人列表">
+                      <div class="graph-subject-top">
+                        <header>
+                          <div class="graph-subject-title">
+                            <strong>当事人</strong>
+                            <span data-graph-subject-count>0 人</span>
+                          </div>
+                          <div class="graph-subject-head-actions">
+                            <button class="button icon-only" type="button" data-graph-add-subject aria-label="新增当事人"><svg class="icon compact"><use href="#i-new"/></svg></button>
+                            <button class="button icon-only" type="button" data-graph-delete-subjects aria-label="删除当事人" aria-pressed="false"><svg class="icon compact"><use href="#i-minus"/></svg></button>
+                          </div>
+                        </header>
+                        <div class="graph-subject-create" data-graph-subject-create hidden>
+                          <input data-graph-subject-name maxlength="120" placeholder="当事人姓名">
+                          <div class="graph-subject-create-actions">
+                            <button class="button" type="button" data-graph-subject-cancel>取消</button>
+                            <button class="button" type="button" data-graph-subject-save>添加</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="graph-subject-scroll" data-graph-subjects><p class="empty-state">选择案件后生成</p></div>
+                      <div class="graph-subject-upload" data-graph-subject-upload>
+                        <p data-graph-upload-hint>点选当事人后上传材料</p>
+                        <p data-graph-upload-current hidden>为 <strong data-graph-upload-name></strong> 上传</p>
+                        <div class="graph-subject-upload-actions">
+                          <button class="button" type="button" data-graph-upload-subject="relation" disabled><svg class="icon compact"><use href="#i-upload"/></svg>关系表</button>
+                          <button class="button" type="button" data-graph-upload-subject="friend" disabled><svg class="icon compact"><use href="#i-upload"/></svg>微信好友表</button>
+                        </div>
+                      </div>
+                      <input type="file" accept=".xlsx" data-subject-file-input hidden>
+                    </nav>
+                    <div class="graph-stage">
+                      <div class="graph-toolbar">
+                        <div class="graph-legend graph-edge-filters" data-graph-edge-filters role="group" aria-label="关系显示">
+                          <span data-kind="subject">当事人</span>
+                          <label class="switch graph-filter-switch" data-kind="related">
+                            <input type="checkbox" data-graph-edge-filter="related" checked>
+                            <span></span>
+                            <em>关系人</em>
+                          </label>
+                          <label class="switch graph-filter-switch" data-kind="inferred">
+                            <input type="checkbox" data-graph-edge-filter="inferred" checked>
+                            <span></span>
+                            <em>推定关系</em>
+                          </label>
+                          <label class="switch graph-filter-switch" data-kind="friend">
+                            <input type="checkbox" data-graph-edge-filter="friend" checked>
+                            <span></span>
+                            <em>微信好友</em>
+                          </label>
+                        </div>
+                        <div class="graph-controls" role="group" aria-label="图谱视图控制">
+                          <button class="button icon-only" type="button" data-graph-zoom="out" aria-label="缩小图谱"><svg class="icon compact"><use href="#i-minus"/></svg></button>
+                          <output data-graph-zoom-level aria-live="polite">100%</output>
+                          <button class="button icon-only" type="button" data-graph-zoom="in" aria-label="放大图谱"><svg class="icon compact"><use href="#i-plus"/></svg></button>
+                          <button class="button subtle" type="button" data-graph-undo disabled aria-label="撤回上一步"><span>撤回</span></button>
+                          <button class="button subtle" type="button" data-graph-reset aria-label="复位图谱布局与视图"><svg class="icon compact"><use href="#i-reset-view"/></svg><span>复位视图</span></button>
+                        </div>
+                        <button class="button subtle" type="button" data-graph-toggle-all><svg class="icon compact"><use href="#i-chevron"/></svg><span>全部隐藏</span></button>
+                      </div>
+                      <div class="graph-canvas-wrap" data-graph-canvas-wrap>
+                        <svg class="graph-canvas" data-graph-canvas role="img" aria-label="案件人员关系图"></svg>
+                        <div class="graph-profile-layer" data-graph-profile-layer></div>
+                        <div class="graph-link-editor" data-graph-link-editor hidden>
+                          <span>关系</span>
+                          <input data-graph-link-relation maxlength="80" placeholder="例如：母亲、同事">
+                          <button class="button" type="button" data-graph-link-cancel>取消</button>
+                          <button class="button primary" type="button" data-graph-link-save>确定</button>
+                        </div>
+                        <div class="graph-link-editor" data-graph-related-create hidden>
+                          <span data-graph-related-owner>新增关系人</span>
+                          <input data-graph-related-name maxlength="120" placeholder="关系人姓名">
+                          <input data-graph-related-relation maxlength="80" placeholder="关系，可留空">
+                          <button class="button" type="button" data-graph-related-cancel>取消</button>
+                          <button class="button primary" type="button" data-graph-related-save>添加</button>
+                        </div>
+                        <p class="empty-state" data-graph-empty>选择案件后自动生成关系图谱</p>
+                      </div>
+                      <div class="graph-node-detail" data-graph-node-detail hidden></div>
+                    </div>
+                  </div>
+                </section>
+                <aside class="graph-side-panel" aria-label="好友筛查与群聊">
+                  <section class="graph-friend-panel">
+                    <div class="pane-head"><div><h2>微信好友筛查</h2><p>勾选多人后碰撞全部好友。两名及以上人员共同的好友都会列出</p></div></div>
+                    <div class="graph-friend-body">
+                      <div class="graph-friend-picks" data-graph-friend-picks><p class="empty-state">新增当事人后再勾选筛查</p></div>
+                      <button class="button" type="button" data-graph-friend-screen>筛查好友</button>
+                      <div class="graph-friend-result" data-graph-friend-result></div>
+                    </div>
+                  </section>
+                  <section class="graph-groups-panel" aria-label="当事人参与群聊">
+                    <div class="pane-head"><div><h2>参与群聊</h2><p>按消息活跃度从高到低排列</p></div><span class="meta" data-graph-group-count>0 GROUPS</span></div>
+                    <div class="graph-group-list" data-graph-groups><p class="empty-state">暂无可关联群聊</p></div>
+                  </section>
+                </aside>
+              </div>
+            </section>
+          </section>
+
+          <div class="resize-handle rail-resizer" role="separator" aria-label="调节右侧数据栏宽度" aria-orientation="vertical" aria-valuemin="18" aria-valuemax="52" aria-valuenow="24" tabindex="0" data-resizer="rail"></div>
+
+          <aside class="evidence-column notes-column glass-panel" aria-label="案件笔记区">
+            <div class="pane-head notes-head"><div><h2><svg class="icon"><use href="#i-edit"/></svg>案件笔记</h2><p>保存在当前案件，换浏览器也能看到</p></div><span class="meta" data-note-status>已保存</span></div>
+            <label class="notes-editor"><span class="sr-only">当前案件笔记</span><textarea data-case-notes placeholder="记录待核实线索、研判思路或复核意见"></textarea></label>
+          </aside>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <dialog class="form-dialog glass-panel" data-import-dialog aria-labelledby="import-title">
+    <form method="dialog">
+      <header>
+        <div>
+          <h2 id="import-title">导入材料</h2>
+          <p data-import-hint>案件材料对所有对话可用；对话材料仅当前对话可用。</p>
+        </div>
+        <button class="button icon-only" type="button" data-import-cancel aria-label="关闭导入资料"><svg class="icon"><use href="#i-reject"/></svg></button>
+      </header>
+      <div class="import-mode-list">
+        <button class="import-mode-option" type="button" data-import-mode="manual">
+          <strong>人工识别</strong>
+          <span>按现有表格字段导入聊天记录、人员信息表和微信好友表，可一次选择多个文件。</span>
+        </button>
+        <button class="import-mode-option" type="button" data-import-mode="ai" hidden>
+          <strong>AI 识别</strong>
+          <span>即将支持，当前版本暂未开放。</span>
+        </button>
+      </div>
+      <footer>
+        <button class="button" type="button" data-import-cancel>取消</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="form-dialog glass-panel" data-review-dialog aria-labelledby="review-title">
+    <form data-review-form>
+      <header>
+        <div>
+          <h2 id="review-title" data-review-title>复核</h2>
+          <p>填写复核人和意见后保存，不再使用浏览器弹窗。</p>
+        </div>
+        <button class="button icon-only" type="button" data-review-cancel aria-label="关闭复核"><svg class="icon"><use href="#i-reject"/></svg></button>
+      </header>
+      <label class="field"><span>复核人</span><input data-reviewer maxlength="80" value="本地复核员" required></label>
+      <label class="field"><span>意见</span><textarea data-review-comment maxlength="1000" placeholder="可留空"></textarea></label>
+      <label class="field" data-review-level-field hidden><span>结论等级</span><select data-review-level>
+        <option>明确证据</option>
+        <option>较强迹象</option>
+        <option>存在迹象但歧义</option>
+        <option>证据不足</option>
+        <option>存在相反证据</option>
+      </select></label>
+      <footer>
+        <button class="button" type="button" data-review-cancel>取消</button>
+        <button class="button primary" type="submit">保存</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="form-dialog glass-panel" data-conversation-dialog aria-labelledby="new-conversation-title">
+    <form data-conversation-form>
+      <header>
+        <div>
+          <h2 id="new-conversation-title">新建研判对话</h2>
+          <p>填写对话名称后即可进入材料智能分析。</p>
+        </div>
+        <button class="button icon-only" type="button" data-conversation-cancel aria-label="关闭新建研判对话"><svg class="icon"><use href="#i-reject"/></svg></button>
+      </header>
+      <label class="field"><span>对话名称</span><input data-conversation-title name="title" maxlength="200" required placeholder="例如：周凯关系研判"></label>
+      <footer>
+        <button class="button" type="button" data-conversation-cancel>取消</button>
+        <button class="button primary" type="submit">创建对话</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="form-dialog glass-panel" data-case-dialog aria-labelledby="new-case-title">
+    <form data-case-form>
+      <header>
+        <div>
+          <h2 id="new-case-title">新建案件</h2>
+          <p>先填写案件基本信息，再进入研判工作台。</p>
+        </div>
+        <button class="button icon-only" type="button" data-case-cancel aria-label="关闭新建案件"><svg class="icon"><use href="#i-reject"/></svg></button>
+      </header>
+      <label class="field"><span>案件名称</span><input data-case-name-input name="name" maxlength="200" required placeholder="例如：九天"></label>
+      <label class="field"><span>案件编号</span><input data-case-code-input name="code" maxlength="80" required placeholder="例如：1233213123"></label>
+      <label class="field"><span>案件类型</span><input data-case-category-input name="category" maxlength="80" required placeholder="例如：诈骗、盗窃"></label>
+      <label class="field"><span>承办人</span><input data-case-handler-input name="handler" maxlength="80" required placeholder="例如：张警官"></label>
+      <label class="field"><span>承办单位</span><input data-case-unit-input name="unit" maxlength="120" required placeholder="例如：某市公安局"></label>
+      <label class="field"><span>简要案情</span><textarea data-case-summary-input name="summary" maxlength="4000" required placeholder="简要说明案发经过、涉及人员和当前研判重点"></textarea></label>
+      <label class="field"><span>重点关键词</span><input data-case-keywords-input name="keywords" maxlength="500" required placeholder="例如：转账、蓝盒、取货，多个词用顿号或逗号分隔"></label>
+      <footer>
+        <button class="button" type="button" data-case-cancel>取消</button>
+        <button class="button primary" type="submit">创建并进入</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="form-dialog glass-panel" data-graph-person-dialog aria-labelledby="graph-person-title">
+    <form data-graph-person-form>
+      <header>
+        <div>
+          <h2 id="graph-person-title">修改人员信息</h2>
+          <p data-graph-person-hint>保存后立即更新当前案件图谱。</p>
+        </div>
+        <button class="button icon-only" type="button" data-graph-person-cancel aria-label="关闭人员编辑"><svg class="icon"><use href="#i-reject"/></svg></button>
+      </header>
+      <input type="hidden" data-graph-person-id>
+      <input type="hidden" data-graph-person-source>
+      <input type="hidden" data-graph-person-target>
+      <label class="field" data-graph-person-owner-field hidden><span>关联当事人</span><input data-graph-person-owner maxlength="120" placeholder="例如：周凯"></label>
+      <label class="field" data-graph-person-relation-field><span>关系</span><input data-graph-person-relation maxlength="80" placeholder="例如：母亲、同事、上下级"></label>
+      <div data-graph-person-profile-fields>
+        <label class="field"><span>姓名</span><input data-graph-person-name maxlength="120" required placeholder="姓名"></label>
+        <label class="field"><span>性别</span><input data-graph-person-gender maxlength="20" placeholder="男 / 女 / 未知"></label>
+        <label class="field"><span>身份证号</span><input data-graph-person-id-card maxlength="80" placeholder="可留空"></label>
+        <label class="field"><span>快递地址</span><textarea data-graph-person-delivery maxlength="2000" placeholder="可留空"></textarea></label>
+        <label class="field"><span>外卖地址</span><textarea data-graph-person-takeout maxlength="2000" placeholder="可留空"></textarea></label>
+        <label class="field"><span>微信ID</span><input data-graph-person-wechat-id maxlength="120" placeholder="可留空"></label>
+        <label class="field"><span>微信号</span><input data-graph-person-wechat-alias maxlength="120" placeholder="可留空"></label>
+        <label class="field"><span>原始微信号</span><input data-graph-person-wechat-original maxlength="120" placeholder="可留空"></label>
+        <label class="field"><span>微信昵称</span><input data-graph-person-nickname maxlength="120" placeholder="可留空"></label>
+        <label class="field"><span>手机号码</span><input data-graph-person-phone maxlength="40" placeholder="可留空"></label>
+      </div>
+      <footer>
+        <button class="button" type="button" data-graph-person-cancel>取消</button>
+        <button class="button primary" type="submit" data-graph-person-submit>保存</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="settings-dialog glass-panel" data-settings-dialog aria-labelledby="settings-title">
+    <form method="dialog" class="settings-shell" data-settings-form>
+      <header class="settings-head"><div><h2 id="settings-title">设置</h2><p data-settings-case>当前案件配置</p></div><button class="button icon-only" value="cancel" aria-label="关闭设置"><svg class="icon"><use href="#i-reject"/></svg></button></header>
+      <div class="settings-body">
+        <nav class="settings-nav" aria-label="设置分类">
+          <button type="button" aria-current="page" data-settings-tab="skills">SKILLS</button>
+          <button type="button" data-settings-tab="mcp">MCP</button>
+          <button type="button" data-settings-tab="prompt">系统提示词</button>
+          <button type="button" data-settings-tab="model">大模型</button>
+          <button type="button" data-settings-tab="usage">用量监测</button>
+          <button type="button" data-settings-tab="appearance">外观</button>
+        </nav>
+        <div class="settings-content">
+          <section data-settings-panel="skills"><div class="settings-title"><div><h3>SKILLS</h3><p>同时读取全局 SKILL 与当前案件 AGENT/SKILLS。</p></div><div class="skill-actions"><label><input type="checkbox" data-skill-select-all> 全选</label><span class="meta" data-skill-count>0</span></div></div><div class="skill-list" data-skill-list><p class="empty-state">正在读取 SKILL…</p></div></section>
+          <section data-settings-panel="mcp" hidden><div class="settings-title"><div><h3>MCP</h3><p>为后续工具服务预留的配置入口。</p></div></div><div class="settings-empty"><svg class="icon"><use href="#i-settings"/></svg><strong>尚未配置 MCP 服务</strong><span>当前版本保留菜单，不建立连接。</span></div></section>
+          <section data-settings-panel="prompt" hidden><div class="settings-title"><div><h3>系统提示词</h3><p>可新建多条提示词，并逐条启用或停用。</p></div><button class="button" type="button" data-prompt-add><svg class="icon compact"><use href="#i-new"/></svg>新建提示词</button></div><div class="prompt-list" data-prompt-list></div></section>
+          <section data-settings-panel="model" hidden><div class="settings-title"><div><h3>大模型</h3><p>选择调用方式、模型与采样参数。</p></div></div>
+            <div class="segmented"><label><input type="radio" name="model-mode" value="local" data-model-mode><span>本地模型</span></label><label><input type="radio" name="model-mode" value="api"><span>API 模型</span></label></div>
+            <div class="model-endpoints"><fieldset><legend>本地服务</legend><label class="field"><span>接口地址</span><input data-local-base placeholder="http://127.0.0.1:1234/v1"></label><label class="field"><span>模型</span><div class="field-action"><select data-local-model></select><button class="button" type="button" data-load-models="local">获取模型</button></div></label><label class="switch-row"><span>启用本地调用</span><label class="switch"><input type="checkbox" data-local-enabled><span></span></label></label></fieldset>
+              <fieldset><legend>API 服务</legend><label class="field"><span>接口地址</span><input data-api-base placeholder="OpenAI 兼容地址，例如 https://api.example.com/v1"></label><label class="field"><span>API KEY</span><input data-api-key type="password" autocomplete="off" placeholder="留空则保留已保存密钥"></label><label class="field"><span>模型</span><div class="field-action"><select data-api-model></select><button class="button" type="button" data-load-models="api">获取模型</button></div></label><label class="field"><span>自定义模型名</span><input data-api-model-custom placeholder="可选。列表没有时再手动填写，留空则使用上方列表"></label><div class="api-preset-box"><label class="field"><span>配置名称</span><input data-api-preset-name maxlength="80" placeholder="例如：DeepSeek 办公"></label><label class="field"><span>自定义说明</span><input data-api-preset-note maxlength="200" placeholder="可选，备注用途、账号或环境"></label><button class="button" type="button" data-api-preset-save>保存当前 API 配置</button><div class="api-preset-list" data-api-preset-list></div></div></fieldset></div>
+            <div class="parameter-grid"><label class="field"><span>TEMPERATURE <output data-temperature-value></output></span><input type="range" min="0" max="2" step="0.05" data-temperature></label><label class="field"><span>TOP P <output data-top-p-value></output></span><input type="range" min="0.05" max="1" step="0.05" data-top-p></label><label class="field"><span>最大输出 TOKENS</span><input type="number" min="128" max="32768" step="128" data-max-tokens></label></div>
+          </section>
+          <section data-settings-panel="usage" hidden><div class="settings-title"><div><h3>用量监测</h3><p>设置面板打开时自动刷新。</p></div><span class="live-label">实时</span></div><div class="usage-totals"><div><span>调用</span><strong data-usage="requests">0</strong></div><div><span>输入 TOKENS</span><strong data-usage="prompt_tokens">0</strong></div><div><span>输出 TOKENS</span><strong data-usage="completion_tokens">0</strong></div><div><span>总 TOKENS</span><strong data-usage="total_tokens">0</strong></div></div><div class="usage-chart" data-usage-chart aria-label="最近模型调用 TOKEN 用量图"><p class="empty-state">暂无调用数据</p></div></section>
+          <section data-settings-panel="appearance" hidden>
+            <div class="settings-title"><div><h3>外观</h3><p>修改后立即预览，配置保存在当前浏览器。</p></div><div class="appearance-actions"><button class="button" type="button" data-theme-import-button>导入</button><button class="button" type="button" data-theme-copy>复制主题</button><input type="file" accept="application/json,.json" data-theme-import hidden></div></div>
+            <div class="appearance-groups">
+              <fieldset class="appearance-card"><legend>主题</legend>
+                <label class="appearance-row"><span><strong>主题模式</strong><small>跟随系统或固定深浅主题</small></span><select data-appearance="theme"><option value="dark">深色</option><option value="light">浅色</option><option value="system">跟随系统</option></select></label>
+                <label class="appearance-row"><span><strong>强调色</strong><small>按钮、选中态与证据标记</small></span><select data-appearance="accent"><option value="cyan">青色</option><option value="blue">蓝色</option><option value="amber">琥珀色</option><option value="rose">玫红色</option></select></label>
+                <label class="appearance-row"><span><strong>背景</strong><small>工作台基础表面</small></span><select data-appearance="background"><option value="default">默认</option><option value="deep">深海</option><option value="graphite">石墨</option></select></label>
+                <label class="appearance-row"><span><strong>前景</strong><small>文字与图标对比层级</small></span><select data-appearance="foreground"><option value="default">默认</option><option value="soft">柔和</option><option value="high">高对比</option></select></label>
+                <label class="appearance-row"><span><strong>UI 字体</strong><small>导航、按钮与设置界面</small></span><span class="appearance-controls"><select data-appearance="uiFont"><option value="system">系统默认</option><option value="yahei">微软雅黑</option><option value="song">宋体</option></select><select data-appearance="uiWeight"><option value="regular">常规</option><option value="medium">中等</option><option value="bold">粗体</option></select></span></label>
+                <label class="appearance-row"><span><strong>内容字体</strong><small>研判结论、事实和群聊正文</small></span><span class="appearance-controls"><select data-appearance="contentFont"><option value="same">与 UI 字体相同</option><option value="yahei">微软雅黑</option><option value="song">宋体</option><option value="kai">楷体</option></select><select data-appearance="contentWeight"><option value="regular">常规</option><option value="medium">中等</option></select></span></label>
+                <label class="appearance-row"><span><strong>代码字体</strong><small>证据 ID、时间和模型参数</small></span><select data-appearance="codeFont"><option value="consolas">CONSOLAS</option><option value="cascadia">CASCADIA MONO</option><option value="system">系统等宽</option></select></label>
+                <label class="appearance-row"><span><strong>半透明侧边栏</strong><small>控制左右侧栏的玻璃层次</small></span><label class="switch"><input type="checkbox" data-appearance="sidebarGlass"><span></span></label></label>
+                <label class="appearance-row"><span><strong>对比度</strong><small>实时调整整个工作台对比度</small></span><span class="range-control"><input type="range" min="0" max="100" step="5" data-appearance="contrast"><output data-appearance-output="contrast">60</output></span></label>
+              </fieldset>
+              <fieldset class="appearance-card"><legend>偏好设置</legend>
+                <label class="appearance-row"><span><strong>使用指针光标</strong><small>悬停交互元素时切换为指针光标</small></span><label class="switch"><input type="checkbox" data-appearance="pointer"><span></span></label></label>
+                <label class="appearance-row"><span><strong>减少动态效果</strong><small>减少动画效果或匹配系统设置</small></span><select data-appearance="motion"><option value="system">系统</option><option value="normal">开启</option><option value="reduce">关闭</option></select></label>
+                <label class="appearance-row"><span><strong>UI 字号</strong><small>调整整个工作台的基础字号</small></span><span class="range-control"><input type="range" min="80" max="125" step="5" data-appearance="uiScale"><output data-appearance-output="uiScale">100%</output></span></label>
+                <label class="appearance-row"><span><strong>代码字体大小</strong><small>调整证据 ID、时间和参数字号</small></span><span class="range-control"><input type="range" min="10" max="16" step="1" data-appearance="codeSize"><output data-appearance-output="codeSize">12</output></span></label>
+                <label class="appearance-row"><span><strong>差异标记</strong><small>事实与推断使用颜色、符号或两者</small></span><select data-appearance="diff"><option value="color">颜色</option><option value="symbols">符号</option><option value="both">两者</option></select></label>
+              </fieldset>
+            </div>
+          </section>
+        </div>
+      </div>
+      <footer class="settings-footer"><span data-settings-status>配置保存在当前案件目录</span><button class="button primary" type="submit" value="save">保存设置</button></footer>
+    </form>
+  </dialog>
+
+  <div class="context-menu glass-panel" data-menu data-open="false" data-side="right" role="menu" aria-label="研判对话操作">
+    <button role="menuitem" data-command="rename"><svg class="icon"><use href="#i-rename"/></svg><span class="menu-label">重命名</span><kbd>Alt Ctrl R</kbd></button>
+    <button role="menuitem" data-command="pin"><svg class="icon"><use href="#i-pin"/></svg><span class="menu-label" data-pin-label>置顶</span><kbd>Alt Ctrl P</kbd></button>
+    <button role="menuitem" data-command="unread"><svg class="icon"><use href="#i-unread"/></svg><span class="menu-label" data-unread-label>标记为未读</span><kbd>Ctrl Shift U</kbd></button>
+    <button role="menuitem" data-command="archive"><svg class="icon"><use href="#i-archive"/></svg><span class="menu-label" data-archive-label>归档</span><kbd>Ctrl Shift A</kbd></button>
+    <div class="menu-separator" role="separator"></div>
+    <div class="menu-item">
+      <button class="menu-trigger" aria-haspopup="menu"><svg class="icon"><use href="#i-folder"/></svg><span class="menu-label">项目</span><svg class="icon compact"><use href="#i-chevron"/></svg></button>
+      <div class="submenu glass-panel" role="menu">
+        <button role="menuitem" data-command="move" data-value="清源专案"><span class="menu-label">“清源”专案</span><svg class="icon compact"><use href="#i-check"/></svg></button>
+        <button role="menuitem" data-command="move" data-value="远航线索核验"><span class="menu-label">“远航”线索核验</span></button>
+        <button role="menuitem" data-command="move" data-value="历史归档案件"><span class="menu-label">历史归档案件</span></button>
+      </div>
+    </div>
+    <div class="menu-item">
+      <button class="menu-trigger" aria-haspopup="menu"><svg class="icon"><use href="#i-section"/></svg><span class="menu-label">分区</span><svg class="icon compact"><use href="#i-chevron"/></svg></button>
+      <div class="submenu glass-panel" role="menu">
+        <button role="menuitem" data-command="section" data-value="默认">默认</button>
+        <button role="menuitem" data-command="section" data-value="研判中">研判中</button>
+        <button role="menuitem" data-command="section" data-value="待复核">待复核</button>
+        <button role="menuitem" data-command="section" data-value="已完成">已完成</button>
+      </div>
+    </div>
+    <div class="menu-separator" role="separator"></div>
+    <button role="menuitem" data-command="share"><svg class="icon"><use href="#i-share"/></svg><span class="menu-label">分享</span></button>
+    <div class="menu-item">
+      <button class="menu-trigger" aria-haspopup="menu"><svg class="icon"><use href="#i-copy"/></svg><span class="menu-label">复制</span><svg class="icon compact"><use href="#i-chevron"/></svg></button>
+      <div class="submenu glass-panel" role="menu">
+        <button role="menuitem" data-command="copy-title">复制标题</button>
+        <button role="menuitem" data-command="copy-id">复制对话 ID</button>
+      </div>
+    </div>
+    <div class="menu-item">
+      <button class="menu-trigger" aria-haspopup="menu"><svg class="icon"><use href="#i-fork"/></svg><span class="menu-label">分叉</span><svg class="icon compact"><use href="#i-chevron"/></svg></button>
+      <div class="submenu glass-panel" role="menu"><button role="menuitem" data-command="fork">在当前案件中创建副本</button></div>
+    </div>
+    <div class="menu-separator" role="separator"></div>
+    <button role="menuitem" data-command="open"><svg class="icon"><use href="#i-window"/></svg><span class="menu-label">在新窗口中打开</span></button>
+    <button role="menuitem" data-command="delete"><svg class="icon"><use href="#i-reject"/></svg><span class="menu-label">删除对话</span></button>
+  </div>
+  <div class="context-menu glass-panel" data-case-menu data-open="false" data-side="right" role="menu" aria-label="案件项目操作">
+    <button role="menuitem" data-case-command="pin"><svg class="icon"><use href="#i-pin"/></svg><span class="menu-label" data-case-pin-label>置顶</span></button>
+    <button role="menuitem" data-case-command="archive"><svg class="icon"><use href="#i-archive"/></svg><span class="menu-label" data-case-archive-label>归档案件</span></button>
+    <button role="menuitem" data-case-command="edit"><svg class="icon"><use href="#i-edit"/></svg><span class="menu-label">编辑项目</span></button>
+    <div class="menu-separator" role="separator"></div>
+    <div class="menu-item">
+      <button class="menu-trigger" aria-haspopup="menu"><svg class="icon"><use href="#i-section"/></svg><span class="menu-label">分区</span><svg class="icon compact"><use href="#i-chevron"/></svg></button>
+      <div class="submenu glass-panel" role="menu">
+        <button role="menuitem" data-case-command="section" data-value="默认">默认</button>
+        <button role="menuitem" data-case-command="section" data-value="研判中">研判中</button>
+        <button role="menuitem" data-case-command="section" data-value="待复核">待复核</button>
+        <button role="menuitem" data-case-command="section" data-value="已归档">已归档</button>
+      </div>
+    </div>
+    <button role="menuitem" data-case-command="open-folder"><svg class="icon"><use href="#i-folder"/></svg><span class="menu-label">在资源管理器中打开</span></button>
+    <div class="menu-separator" role="separator"></div>
+    <button role="menuitem" data-case-command="archive-chats"><svg class="icon"><use href="#i-archive"/></svg><span class="menu-label">归档全部聊天</span></button>
+    <div class="menu-separator" role="separator"></div>
+    <button class="danger" role="menuitem" data-case-command="remove"><svg class="icon"><use href="#i-reject"/></svg><span class="menu-label">删除案件</span></button>
+  </div>
+  <div class="context-menu glass-panel" data-graph-node-menu data-open="false" data-side="right" role="menu" aria-label="图谱人物操作">
+    <button role="menuitem" data-graph-promote-subject><svg class="icon"><use href="#i-group"/></svg><span class="menu-label">添加当事人</span></button>
+  </div>
+  <div class="toast" data-toast data-visible="false" role="status" aria-live="polite"></div>
+
+  <script type="application/x-prototype-disabled">
+    const root = document.documentElement;
+    const menu = document.querySelector('[data-menu]');
+    const toast = document.querySelector('[data-toast]');
+    const appShell = document.querySelector('.app-shell');
+    const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
+    const workbench = document.querySelector('.workbench');
+    let activeConversation = document.querySelector('.conversation-item[aria-current="page"]');
+    let activeChatId = 'case-sync';
+    let toastTimer;
+
+    const chatData = {
+      'case-sync': {
+        title: '清源案件协同群', members: '18 名成员',
+        messages: [
+          { sender: '王璐', account: 'wxid_wanglu', time: '10:21:08', id: 'RAW-20841', text: '登录记录已经核对，117.136.38.*** 在同一时间段内出现三次。' },
+          { sender: '刘佳', account: 'wxid_liujia', time: '10:26:33', id: 'RAW-20846', text: '我补充了位置截图，原图和文件哈希都已导入案件。' },
+          { sender: '我', account: 'reviewer_local', time: '10:31:02', id: 'RAW-20851', text: '收到，先保留原始记录，等待设备信息复核。', own: true }
+        ]
+      },
+      'fund-trace': {
+        title: '资金往来核查群', members: '9 名成员',
+        messages: [
+          { sender: '周宁', account: 'wxid_zhouning', time: '09:58:17', id: 'RAW-20792', text: '新的流水编号已经发送，时间范围是八月十九日至八月二十二日。' },
+          { sender: '陈凯', account: 'wxid_chenkai', time: '10:18:44', id: 'RAW-20816', text: '已收到，正在核对重复转账与同名账户。' }
+        ]
+      },
+      'contact-map': {
+        title: '外围联络关系群', members: '31 名成员',
+        messages: [
+          { sender: '林澈', account: 'wxid_linche', time: '09:42:10', id: 'RAW-20755', text: '新增一名关联联系人，账号与目标群聊有四次共同出现记录。' },
+          { sender: '孙遥', account: 'wxid_sunyao', time: '09:46:28', id: 'RAW-20761', text: '先标记为待核验，不要合并身份。' }
+        ]
+      },
+      'task-room': {
+        title: '清源项目工作群', members: '12 名成员',
+        messages: [
+          { sender: '项目协调员', account: 'wxid_case_admin', time: '昨天 18:40', id: 'RAW-20602', text: '今晚统一复核材料，请确认引用都能回溯到原始文件。' }
+        ]
+      }
+    };
+
+    const sidebarResizer = document.querySelector('[data-resizer="sidebar"]');
+    const railResizer = document.querySelector('[data-resizer="rail"]');
+    const tokenRem = name => Number.parseFloat(getComputedStyle(root).getPropertyValue(name));
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const savedRem = key => {
+      const value = Number.parseFloat(localStorage.getItem(key));
+      return Number.isFinite(value) ? value : null;
+    };
+    const setSidebarWidth = (value, persist = false) => {
+      const width = clamp(value, tokenRem('--sidebar-min-size'), tokenRem('--sidebar-max-size'));
+      root.style.setProperty('--sidebar-size', `${width}rem`);
+      sidebarResizer.setAttribute('aria-valuenow', String(Math.round(width)));
+      if (persist) localStorage.setItem('jt-sidebar-width-rem', String(width));
+    };
+    const railStorageKey = () => `jt-rail-${workbench.dataset.activeRail}-width-rem`;
+    const defaultRailWidth = () => tokenRem(workbench.dataset.activeRail === 'chats' ? '--rail-chat-size' : '--rail-size');
+    const setRailWidth = (value, persist = false) => {
+      const width = clamp(value, tokenRem('--rail-min-size'), tokenRem('--rail-max-size'));
+      workbench.style.setProperty('--rail-current-size', `${width}rem`);
+      railResizer.setAttribute('aria-valuenow', String(Math.round(width)));
+      if (persist) localStorage.setItem(railStorageKey(), String(width));
+    };
+    const restoreRailWidth = () => setRailWidth(savedRem(railStorageKey()) ?? defaultRailWidth());
+    const bindResizer = ({ handle, getWidth, setWidth, direction, disabledQuery }) => {
+      let drag = null;
+      handle.addEventListener('pointerdown', event => {
+        if (matchMedia(disabledQuery).matches) return;
+        drag = { pointerId: event.pointerId, startX: event.clientX, startWidth: getWidth() };
+        handle.dataset.dragging = 'true';
+        handle.setPointerCapture(event.pointerId);
+      });
+      handle.addEventListener('pointermove', event => {
+        if (!drag || event.pointerId !== drag.pointerId) return;
+        const rem = Number.parseFloat(getComputedStyle(root).fontSize);
+        setWidth(drag.startWidth + direction * (event.clientX - drag.startX) / rem);
+      });
+      const finishDrag = event => {
+        if (!drag || event.pointerId !== drag.pointerId) return;
+        setWidth(getWidth(), true);
+        handle.dataset.dragging = 'false';
+        drag = null;
+      };
+      handle.addEventListener('pointerup', finishDrag);
+      handle.addEventListener('pointercancel', finishDrag);
+      handle.addEventListener('keydown', event => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key) || matchMedia(disabledQuery).matches) return;
+        event.preventDefault();
+        const arrowDirection = event.key === 'ArrowRight' ? 1 : -1;
+        setWidth(getWidth() + direction * arrowDirection * tokenRem('--resize-step'), true);
+      });
+    };
+
+    setSidebarWidth(savedRem('jt-sidebar-width-rem') ?? tokenRem('--sidebar-size'));
+    restoreRailWidth();
+    bindResizer({
+      handle: sidebarResizer,
+      getWidth: () => document.querySelector('.sidebar').getBoundingClientRect().width / Number.parseFloat(getComputedStyle(root).fontSize),
+      setWidth: setSidebarWidth,
+      direction: 1,
+      disabledQuery: '(max-width: 48rem)'
+    });
+    bindResizer({
+      handle: railResizer,
+      getWidth: () => document.querySelector('.evidence-column').getBoundingClientRect().width / Number.parseFloat(getComputedStyle(root).fontSize),
+      setWidth: setRailWidth,
+      direction: -1,
+      disabledQuery: '(max-width: 64rem)'
+    });
+
+    const showToast = message => {
+      toast.textContent = message;
+      toast.dataset.visible = 'true';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.dataset.visible = 'false'; }, 2200);
+    };
+    const syncMenuLabels = () => {
+      document.querySelector('[data-pin-label]').textContent = activeConversation.dataset.pinned === 'true' ? '取消置顶' : '置顶';
+      document.querySelector('[data-unread-label]').textContent = activeConversation.dataset.unread === 'true' ? '标记为已读' : '标记为未读';
+      document.querySelector('[data-archive-label]').textContent = activeConversation.dataset.archived === 'true' ? '取消归档' : '归档';
+    };
+    const openMenu = (clientX, clientY, conversation = activeConversation) => {
+      activeConversation = conversation || activeConversation;
+      syncMenuLabels();
+      menu.dataset.open = 'true';
+      menu.dataset.side = clientX > innerWidth / 2 ? 'left' : 'right';
+      requestAnimationFrame(() => {
+        const rem = Number.parseFloat(getComputedStyle(root).fontSize);
+        const edge = rem;
+        const x = Math.max(edge, Math.min(clientX, innerWidth - menu.offsetWidth - edge));
+        const y = Math.max(edge, Math.min(clientY, innerHeight - menu.offsetHeight - edge));
+        menu.style.setProperty('--menu-x', String(x / rem));
+        menu.style.setProperty('--menu-y', String(y / rem));
+        menu.querySelector('button').focus();
+      });
+    };
+    const copyText = async value => {
+      try { await navigator.clipboard.writeText(value); showToast('已复制到剪贴板'); }
+      catch { showToast('浏览器未授予剪贴板权限'); }
+    };
+    const renderRawMessages = () => {
+      const chat = chatData[activeChatId];
+      const messageList = document.querySelector('[data-chat-messages]');
+      document.querySelector('[data-chat-title]').textContent = chat.title;
+      document.querySelector('[data-chat-members]').textContent = chat.members;
+      messageList.replaceChildren(...chat.messages.map(message => {
+        const article = document.createElement('article');
+        article.className = `raw-message${message.own ? ' own' : ''}`;
+        article.dataset.messageId = message.id;
+        const avatar = document.createElement('span');
+        avatar.className = 'chat-avatar';
+        avatar.textContent = message.sender.slice(0, 1);
+        const content = document.createElement('div');
+        content.className = 'raw-message-content';
+        const meta = document.createElement('div');
+        meta.className = 'raw-message-meta';
+        [message.sender, message.account, message.time, message.id].forEach(value => {
+          const span = document.createElement('span');
+          span.textContent = value;
+          meta.append(span);
+        });
+        const bubble = document.createElement('div');
+        bubble.className = 'raw-message-bubble';
+        bubble.textContent = message.text;
+        content.append(meta, bubble);
+        article.append(...(message.own ? [content, avatar] : [avatar, content]));
+        return article;
+      }));
+      requestAnimationFrame(() => { messageList.scrollTop = messageList.scrollHeight; });
+    };
+    const selectChat = chatId => {
+      activeChatId = chatId;
+      document.querySelectorAll('[data-chat-id]').forEach(item => item.dataset.active = String(item.dataset.chatId === chatId));
+      document.querySelector(`[data-chat-id="${chatId}"] .unread-badge`)?.remove();
+      renderRawMessages();
+    };
+    const runCommand = async (command, value = '') => {
+      if (!activeConversation) return;
+      if (command === 'rename') {
+        const title = prompt('重命名研判对话', activeConversation.dataset.title)?.trim();
+        if (title) {
+          activeConversation.dataset.title = title;
+          activeConversation.querySelector('.truncate').textContent = title;
+          showToast('对话已重命名');
+        }
+      } else if (command === 'pin') {
+        activeConversation.dataset.pinned = String(activeConversation.dataset.pinned !== 'true');
+        showToast(activeConversation.dataset.pinned === 'true' ? '对话已置顶' : '已取消置顶');
+      } else if (command === 'unread') {
+        activeConversation.dataset.unread = String(activeConversation.dataset.unread !== 'true');
+        showToast(activeConversation.dataset.unread === 'true' ? '已标记为未读' : '已标记为已读');
+      } else if (command === 'archive') {
+        activeConversation.dataset.archived = String(activeConversation.dataset.archived !== 'true');
+        showToast(activeConversation.dataset.archived === 'true' ? '对话已归档' : '对话已恢复');
+      } else if (command === 'move') {
+        showToast(`已移动到${value}`);
+      } else if (command === 'section') {
+        showToast(`已切换到${value}分区`);
+      } else if (command === 'share') {
+        await copyText(`${location.origin}${location.pathname}#conversation=${activeConversation.dataset.conversationId}`);
+      } else if (command === 'copy-title') {
+        await copyText(activeConversation.dataset.title);
+      } else if (command === 'copy-id') {
+        await copyText(activeConversation.dataset.conversationId);
+      } else if (command === 'fork') {
+        const clone = activeConversation.cloneNode(true);
+        clone.removeAttribute('aria-current');
+        clone.dataset.conversationId = `${activeConversation.dataset.conversationId}-fork`;
+        clone.dataset.title = `${activeConversation.dataset.title} 副本`;
+        clone.querySelector('.truncate').textContent = clone.dataset.title;
+        activeConversation.after(clone);
+        showToast('已创建对话分叉');
+      } else if (command === 'open') {
+        window.open(`${location.href.split('#')[0]}#conversation=${activeConversation.dataset.conversationId}`, '_blank', 'noopener');
+      }
+      menu.dataset.open = 'false';
+    };
+
+    document.querySelector('[data-theme-toggle]').addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    });
+    document.querySelector('[data-language-toggle]').addEventListener('click', () => {
+      root.dataset.i18n = root.dataset.i18n === 'zh' ? 'en' : 'zh';
+    });
+    document.querySelectorAll('[data-rail-mode]').forEach(button => button.addEventListener('click', () => {
+      const mode = button.dataset.railMode;
+      workbench.dataset.activeRail = mode;
+      document.querySelectorAll('[data-rail-mode]').forEach(item => item.setAttribute('aria-selected', String(item === button)));
+      document.querySelectorAll('[data-rail-view]').forEach(view => { view.hidden = view.dataset.railView !== mode; });
+      restoreRailWidth();
+      if (mode === 'chats') renderRawMessages();
+    }));
+    document.querySelector('.group-list-items').addEventListener('click', event => {
+      const item = event.target.closest('[data-chat-id]');
+      if (item) selectChat(item.dataset.chatId);
+    });
+    document.querySelector('[data-chat-form]').addEventListener('submit', event => {
+      event.preventDefault();
+      const input = document.querySelector('[data-chat-input]');
+      const text = input.value.trim();
+      if (!text) return;
+      const now = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+      chatData[activeChatId].messages.push({ sender: '我', account: 'reviewer_local', time: now, id: `RAW-LIVE-${Date.now()}`, text, own: true });
+      input.value = '';
+      renderRawMessages();
+    });
+    const setSidebarOpen = open => {
+      appShell.dataset.sidebarOpen = String(open);
+      sidebarToggle.setAttribute('aria-expanded', String(open));
+    };
+    sidebarToggle.addEventListener('click', () => setSidebarOpen(appShell.dataset.sidebarOpen !== 'true'));
+    document.querySelector('[data-sidebar-close]').addEventListener('click', () => setSidebarOpen(false));
+    document.querySelector('[data-menu-toggle]').addEventListener('click', event => {
+      event.stopPropagation();
+      if (menu.dataset.open === 'true') menu.dataset.open = 'false';
+      else {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        openMenu(bounds.right, bounds.bottom);
+      }
+    });
+    document.querySelector('.case-tree').addEventListener('contextmenu', event => {
+      const conversation = event.target.closest('.conversation-item');
+      if (!conversation) return;
+      event.preventDefault();
+      openMenu(event.clientX, event.clientY, conversation);
+    });
+    document.querySelector('.case-tree').addEventListener('click', event => {
+      const conversation = event.target.closest('.conversation-item');
+      if (!conversation) return;
+      document.querySelectorAll('.conversation-item').forEach(item => item.removeAttribute('aria-current'));
+      conversation.setAttribute('aria-current', 'page');
+      activeConversation = conversation;
+      if (matchMedia('(max-width: 48rem)').matches) setSidebarOpen(false);
+    });
+    menu.addEventListener('click', event => {
+      event.stopPropagation();
+      const command = event.target.closest('[data-command]');
+      if (command) runCommand(command.dataset.command, command.dataset.value);
+    });
+    document.addEventListener('click', () => { menu.dataset.open = 'false'; });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { menu.dataset.open = 'false'; setSidebarOpen(false); }
+      if (event.altKey && event.ctrlKey && event.key.toLowerCase() === 'r') { event.preventDefault(); runCommand('rename'); }
+      if (event.altKey && event.ctrlKey && event.key.toLowerCase() === 'p') { event.preventDefault(); runCommand('pin'); }
+      if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'u') { event.preventDefault(); runCommand('unread'); }
+      if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'a') { event.preventDefault(); runCommand('archive'); }
+    });
+    document.querySelectorAll('[role="tablist"]').forEach(tablist => tablist.querySelectorAll(':scope > [role="tab"]').forEach(tab => tab.addEventListener('click', () => {
+      tablist.querySelectorAll(':scope > [role="tab"]').forEach(item => item.setAttribute('aria-selected', String(item === tab)));
+    })));
+    renderRawMessages();
+    setInterval(() => {
+      const chat = chatData[activeChatId];
+      const now = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+      chat.messages.push({ sender: '实时同步', account: 'source_stream', time: now, id: `RAW-LIVE-${Date.now()}`, text: '收到一条新的原始群聊消息，已按时间顺序追加。' });
+      if (!document.querySelector('[data-rail-view="chats"]').hidden) renderRawMessages();
+    }, 12000);
+  </script>
+  <script src="/app.js?v=project-62"></script>
+</body>
+</html>
